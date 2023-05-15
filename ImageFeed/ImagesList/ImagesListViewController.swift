@@ -63,15 +63,6 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        imageListCell.likeButtonAction = { [] in
-            print("Testing aspect ratio\npicture number: \(indexPath.row)")
-            let image = UIImage(named: self.photosName[indexPath.row])
-            let imageWidth = image?.size.width ?? 0
-            let imageHeight = image?.size.height ?? 1
-            print("picture size: w=\(imageWidth), h=\(imageHeight), w/h=\(imageWidth / imageHeight)")
-            print("cellImage size: w=\(imageListCell.cellImage.bounds.width), h=\(imageListCell.cellImage.bounds.height), w/h=\(imageListCell.cellImage.bounds.width / imageListCell.cellImage.bounds.height)")
-        }
-        
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -80,7 +71,7 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return }
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
-        cell.setLike(indexPath.row % 2 != 0)
+        cell.like = (indexPath.row % 2 != 0)
     }
 }
 
