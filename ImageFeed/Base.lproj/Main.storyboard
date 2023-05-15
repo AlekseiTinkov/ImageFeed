@@ -124,7 +124,7 @@
                     <navigationItem key="navigationItem" id="zK4-jL-Hdx"/>
                     <connections>
                         <outlet property="tableView" destination="8Q7-2V-MiQ" id="0Ak-iR-ca3"/>
-                        <segue destination="93b-Tk-aVO" kind="show" identifier="ShowSingleImage" id="pOl-li-QLu"/>
+                        <segue destination="93b-Tk-aVO" kind="presentation" identifier="ShowSingleImage" id="pOl-li-QLu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -134,23 +134,37 @@
         <!--Single Image View Controller-->
         <scene sceneID="04w-nQ-fna">
             <objects>
-                <viewController id="93b-Tk-aVO" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="93b-Tk-aVO" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aoz-yd-hUq">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="pSD-ke-XWb">
-                                <rect key="frame" x="0.0" y="103" width="430" height="746"/>
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                                 <color key="backgroundColor" name="YP Black"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-GZ-3FY">
+                                <rect key="frame" x="28" y="67" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="8zS-tS-gyW"/>
+                                    <constraint firstAttribute="width" constant="48" id="e8L-He-DYY"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="image_view_backward"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="93b-Tk-aVO" eventType="touchUpInside" id="zna-Ex-uK9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iju-o1-Jbr"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="iju-o1-Jbr" firstAttribute="trailing" secondItem="pSD-ke-XWb" secondAttribute="trailing" id="6X6-UW-lxE"/>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="leading" secondItem="iju-o1-Jbr" secondAttribute="leading" id="UcA-bA-jFL"/>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="top" secondItem="iju-o1-Jbr" secondAttribute="top" id="bJf-2A-BVx"/>
-                            <constraint firstItem="iju-o1-Jbr" firstAttribute="bottom" secondItem="pSD-ke-XWb" secondAttribute="bottom" id="exR-Ue-HvZ"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="trailing" secondItem="aoz-yd-hUq" secondAttribute="trailing" id="6X6-UW-lxE"/>
+                            <constraint firstItem="RoU-GZ-3FY" firstAttribute="leading" secondItem="iju-o1-Jbr" secondAttribute="leading" constant="28" id="JS8-aK-yKG"/>
+                            <constraint firstItem="RoU-GZ-3FY" firstAttribute="top" secondItem="iju-o1-Jbr" secondAttribute="top" constant="8" id="OKf-rU-1TO"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="leading" secondItem="aoz-yd-hUq" secondAttribute="leading" id="UcA-bA-jFL"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="top" secondItem="aoz-yd-hUq" secondAttribute="top" id="bJf-2A-BVx"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="bottom" secondItem="aoz-yd-hUq" secondAttribute="bottom" id="exR-Ue-HvZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tdh-Og-pPT"/>
@@ -160,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oRl-oT-pgJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1376" y="-335"/>
+            <point key="canvasLocation" x="1331" y="-334"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="hHN-ED-T8h">
@@ -265,6 +279,7 @@
         <image name="LikeOn" width="30" height="28"/>
         <image name="Logout" width="20" height="22"/>
         <image name="MockProfileImage" width="350" height="350"/>
+        <image name="image_view_backward" width="9" height="16"/>
         <image name="tab_editorial_active" width="20" height="22"/>
         <image name="tab_profile_active" width="75" height="49"/>
         <namedColor name="YP Background">
