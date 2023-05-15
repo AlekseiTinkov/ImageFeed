@@ -66,7 +66,7 @@
                                                         <constraint firstAttribute="height" constant="44" id="rwc-Of-IxG"/>
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="LikeOn"/>
+                                                    <state key="normal" image="button_like_on"/>
                                                     <connections>
                                                         <action selector="likeButtonTap:" destination="JK6-lz-lmF" eventType="touchUpInside" id="9v7-RC-Tzx"/>
                                                     </connections>
@@ -140,37 +140,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="pSD-ke-XWb">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yef-gn-pdN">
                                 <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                                <color key="backgroundColor" name="YP Black"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-GZ-3FY">
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="pSD-ke-XWb">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
+                                        <color key="backgroundColor" name="YP Black"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="pSD-ke-XWb" firstAttribute="trailing" secondItem="yef-gn-pdN" secondAttribute="trailing" id="D3A-RV-al3"/>
+                                    <constraint firstItem="pSD-ke-XWb" firstAttribute="bottom" secondItem="yef-gn-pdN" secondAttribute="bottom" id="fXw-IQ-nID"/>
+                                    <constraint firstItem="pSD-ke-XWb" firstAttribute="leading" secondItem="yef-gn-pdN" secondAttribute="leading" id="oHu-pS-RF8"/>
+                                    <constraint firstItem="pSD-ke-XWb" firstAttribute="top" secondItem="yef-gn-pdN" secondAttribute="top" id="qnA-14-cAC"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Tzq-vA-DOr"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="gS6-Id-7YQ"/>
+                                <connections>
+                                    <outlet property="delegate" destination="93b-Tk-aVO" id="Ri5-nq-uOi"/>
+                                </connections>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-GZ-3FY" userLabel="BackButton">
                                 <rect key="frame" x="28" y="67" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="8zS-tS-gyW"/>
                                     <constraint firstAttribute="width" constant="48" id="e8L-He-DYY"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="image_view_backward"/>
+                                <state key="normal" image="button_image_view_backward"/>
                                 <connections>
                                     <action selector="didTapBackButton:" destination="93b-Tk-aVO" eventType="touchUpInside" id="zna-Ex-uK9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMx-k2-Twq" userLabel="ShareButton">
+                                <rect key="frame" x="190" y="831" width="50" height="50"/>
+                                <color key="backgroundColor" name="YP Black"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="QGv-21-S3i"/>
+                                    <constraint firstAttribute="height" constant="50" id="p4h-xN-Nba"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="button_share"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="93b-Tk-aVO" eventType="touchUpInside" id="wLF-md-0gr"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iju-o1-Jbr"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="trailing" secondItem="aoz-yd-hUq" secondAttribute="trailing" id="6X6-UW-lxE"/>
+                            <constraint firstItem="yef-gn-pdN" firstAttribute="bottom" secondItem="aoz-yd-hUq" secondAttribute="bottom" id="43F-T5-uRZ"/>
                             <constraint firstItem="RoU-GZ-3FY" firstAttribute="leading" secondItem="iju-o1-Jbr" secondAttribute="leading" constant="28" id="JS8-aK-yKG"/>
+                            <constraint firstItem="IMx-k2-Twq" firstAttribute="centerX" secondItem="iju-o1-Jbr" secondAttribute="centerX" id="N1e-1x-5Ds"/>
                             <constraint firstItem="RoU-GZ-3FY" firstAttribute="top" secondItem="iju-o1-Jbr" secondAttribute="top" constant="8" id="OKf-rU-1TO"/>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="leading" secondItem="aoz-yd-hUq" secondAttribute="leading" id="UcA-bA-jFL"/>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="top" secondItem="aoz-yd-hUq" secondAttribute="top" id="bJf-2A-BVx"/>
-                            <constraint firstItem="pSD-ke-XWb" firstAttribute="bottom" secondItem="aoz-yd-hUq" secondAttribute="bottom" id="exR-Ue-HvZ"/>
+                            <constraint firstItem="yef-gn-pdN" firstAttribute="trailing" secondItem="aoz-yd-hUq" secondAttribute="trailing" id="Vhm-9u-vNd"/>
+                            <constraint firstItem="IMx-k2-Twq" firstAttribute="bottom" secondItem="iju-o1-Jbr" secondAttribute="bottom" constant="-17" id="YtF-pQ-QRt"/>
+                            <constraint firstItem="yef-gn-pdN" firstAttribute="top" secondItem="aoz-yd-hUq" secondAttribute="top" id="pjF-TY-Dfi"/>
+                            <constraint firstItem="yef-gn-pdN" firstAttribute="leading" secondItem="aoz-yd-hUq" secondAttribute="leading" id="uL7-iH-rSe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tdh-Og-pPT"/>
                     <connections>
                         <outlet property="imageView" destination="pSD-ke-XWb" id="8tf-gI-yW2"/>
+                        <outlet property="scrollView" destination="yef-gn-pdN" id="KA8-JW-MgY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oRl-oT-pgJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -213,7 +251,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgI-XN-Ug7" userLabel="Logut Button">
                                 <rect key="frame" x="386" y="100" width="20" height="22"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="Logout"/>
+                                <state key="normal" image="button_logout"/>
                                 <connections>
                                     <action selector="logoutButtonTap:" destination="dWL-cS-Ep4" eventType="touchUpInside" id="Tmc-X7-USu"/>
                                 </connections>
@@ -253,10 +291,11 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Gradient" width="343" height="30"/>
-        <image name="LikeOn" width="30" height="28"/>
-        <image name="Logout" width="20" height="22"/>
         <image name="MockProfileImage" width="350" height="350"/>
-        <image name="image_view_backward" width="9" height="16"/>
+        <image name="button_image_view_backward" width="9" height="16"/>
+        <image name="button_like_on" width="30" height="28"/>
+        <image name="button_logout" width="20" height="22"/>
+        <image name="button_share" width="23" height="21"/>
         <image name="tab_editorial_active" width="20" height="22"/>
         <image name="tab_profile_active" width="75" height="49"/>
         <namedColor name="YP Background">
