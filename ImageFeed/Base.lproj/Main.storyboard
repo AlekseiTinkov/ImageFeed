@@ -39,7 +39,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8Q7-2V-MiQ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8Q7-2V-MiQ">
                                 <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                                 <color key="backgroundColor" name="YP Background"/>
                                 <prototypes>
@@ -124,11 +124,43 @@
                     <navigationItem key="navigationItem" id="zK4-jL-Hdx"/>
                     <connections>
                         <outlet property="tableView" destination="8Q7-2V-MiQ" id="0Ak-iR-ca3"/>
+                        <segue destination="93b-Tk-aVO" kind="show" identifier="ShowSingleImage" id="pOl-li-QLu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="403.25581395348837" y="-334.12017167381975"/>
+        </scene>
+        <!--Single Image View Controller-->
+        <scene sceneID="04w-nQ-fna">
+            <objects>
+                <viewController id="93b-Tk-aVO" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aoz-yd-hUq">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="pSD-ke-XWb">
+                                <rect key="frame" x="0.0" y="103" width="430" height="746"/>
+                                <color key="backgroundColor" name="YP Black"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iju-o1-Jbr"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="iju-o1-Jbr" firstAttribute="trailing" secondItem="pSD-ke-XWb" secondAttribute="trailing" id="6X6-UW-lxE"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="leading" secondItem="iju-o1-Jbr" secondAttribute="leading" id="UcA-bA-jFL"/>
+                            <constraint firstItem="pSD-ke-XWb" firstAttribute="top" secondItem="iju-o1-Jbr" secondAttribute="top" id="bJf-2A-BVx"/>
+                            <constraint firstItem="iju-o1-Jbr" firstAttribute="bottom" secondItem="pSD-ke-XWb" secondAttribute="bottom" id="exR-Ue-HvZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="tdh-Og-pPT"/>
+                    <connections>
+                        <outlet property="imageView" destination="pSD-ke-XWb" id="8tf-gI-yW2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oRl-oT-pgJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1376" y="-335"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="hHN-ED-T8h">
