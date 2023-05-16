@@ -69,6 +69,7 @@ extension ImagesListViewController: UITableViewDataSource {
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return }
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
         cell.like = (indexPath.row % 2 != 0)

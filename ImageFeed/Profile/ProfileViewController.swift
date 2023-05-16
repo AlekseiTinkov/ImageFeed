@@ -8,6 +8,7 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
     private var profileImage: UIImageView?
     private var nameLabel: UILabel?
     private var loginLabel: UILabel?
@@ -17,22 +18,18 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         addProfileImage(UIImage(named: "MockProfileImage"))
-        addLogoutButton()
-        
-        addLabel(label: &nameLabel,
+        addProfileLabel(label: &nameLabel,
                  text: "Екатерина Новикова",
-                 color: .ypWhite, font: UIFont.boldSystemFont(ofSize: 23.0),
-                 yAnchor: profileImage?.bottomAnchor)
-        addLabel(label: &loginLabel,
+                 color: .ypWhite, font: UIFont.boldSystemFont(ofSize: 23.0))
+        addProfileLabel(label: &loginLabel,
                  text: "@ekaterina_nov",
                  color: .ypGray,
-                 font: UIFont.systemFont(ofSize: 13.0),
-                 yAnchor: nameLabel?.bottomAnchor)
-        addLabel(label: &descriptionLabel,
+                 font: UIFont.systemFont(ofSize: 13.0))
+        addProfileLabel(label: &descriptionLabel,
                  text: "Hellow, world!",
                  color: .ypWhite,
-                 font: UIFont.systemFont(ofSize: 13.0),
-                 yAnchor: loginLabel?.bottomAnchor)
+                 font: UIFont.systemFont(ofSize: 13.0))
+        addLogoutButton()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -40,7 +37,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addProfileImage(_ image: UIImage?) {
-        let profileImage = UIImageView(image: image ?? UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!)
+        let profileImage = UIImageView(image: image ?? nulProfileImage)
         profileImage.tintColor = .gray
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImage)
@@ -51,8 +48,8 @@ final class ProfileViewController: UIViewController {
         self.profileImage = profileImage
     }
     
-    private func addLabel(label: inout UILabel?, text: String?, color: UIColor, font: UIFont, yAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>?) {
-        guard let yAnchor else { return }
+    private func addProfileLabel(label: inout UILabel?, text: String?, color: UIColor, font: UIFont) {
+        guard let yAnchor = view.subviews.last?.bottomAnchor else { return }
         label = UILabel()
         label?.text = text
         label?.textColor = color
@@ -78,10 +75,9 @@ final class ProfileViewController: UIViewController {
         logoutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
     }
     
-    
     @objc
     private func didTapLogoutButton() {
-        profileImage?.image = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
+        profileImage?.image = nulProfileImage
         nameLabel?.text = "NoName"
         loginLabel?.text = "@no.name"
         descriptionLabel?.text = "ho-ho-ho"
