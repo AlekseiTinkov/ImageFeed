@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jUb-Vu-IH5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jUb-Vu-IH5">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -173,7 +173,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-GZ-3FY" userLabel="BackButton">
-                                <rect key="frame" x="28" y="67" width="48" height="48"/>
+                                <rect key="frame" x="28" y="8" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="8zS-tS-gyW"/>
                                     <constraint firstAttribute="width" constant="48" id="e8L-He-DYY"/>
@@ -193,7 +193,7 @@
                             <constraint firstItem="IMx-k2-Twq" firstAttribute="centerX" secondItem="iju-o1-Jbr" secondAttribute="centerX" id="N1e-1x-5Ds"/>
                             <constraint firstItem="RoU-GZ-3FY" firstAttribute="top" secondItem="iju-o1-Jbr" secondAttribute="top" constant="8" id="OKf-rU-1TO"/>
                             <constraint firstItem="yef-gn-pdN" firstAttribute="trailing" secondItem="aoz-yd-hUq" secondAttribute="trailing" id="Vhm-9u-vNd"/>
-                            <constraint firstItem="IMx-k2-Twq" firstAttribute="bottom" secondItem="iju-o1-Jbr" secondAttribute="bottom" constant="-17" id="YtF-pQ-QRt"/>
+                            <constraint firstItem="IMx-k2-Twq" firstAttribute="bottom" secondItem="aoz-yd-hUq" secondAttribute="bottom" constant="-51" id="YtF-pQ-QRt"/>
                             <constraint firstItem="yef-gn-pdN" firstAttribute="top" secondItem="aoz-yd-hUq" secondAttribute="top" id="pjF-TY-Dfi"/>
                             <constraint firstItem="yef-gn-pdN" firstAttribute="leading" secondItem="aoz-yd-hUq" secondAttribute="leading" id="uL7-iH-rSe"/>
                         </constraints>
@@ -228,11 +228,11 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Gradient" width="343" height="30"/>
-        <image name="button_image_view_backward" width="9" height="16"/>
-        <image name="button_like_on" width="30" height="28"/>
-        <image name="button_sharing" width="51" height="50"/>
+        <image name="button_image_view_backward" width="9" height="15.666666984558105"/>
+        <image name="button_like_on" width="30" height="27.333333969116211"/>
+        <image name="button_sharing" width="50.333332061767578" height="50"/>
         <image name="tab_editorial_active" width="20" height="22"/>
-        <image name="tab_profile_active" width="75" height="49"/>
+        <image name="tab_profile_active" width="24" height="24"/>
         <namedColor name="YP Background">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
