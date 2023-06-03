@@ -17,6 +17,7 @@
 		7139FEA829FEA5690081AD59 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139FEA729FEA5690081AD59 /* ImagesListCell.swift */; };
 		717180C92A0D74F900C22CB8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717180C82A0D74F900C22CB8 /* ProfileViewController.swift */; };
 		7179564E2A122770006D84F8 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7179564D2A122770006D84F8 /* SingleImageViewController.swift */; };
+		7180AEB72A2B5CA300AD271D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7180AEB62A2B5CA300AD271D /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		7139FEA729FEA5690081AD59 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		717180C82A0D74F900C22CB8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7179564D2A122770006D84F8 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
+		7180AEB62A2B5CA300AD271D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			children = (
 				7139FE7029FD1E020081AD59 /* AppDelegate.swift */,
 				7139FE7229FD1E020081AD59 /* SceneDelegate.swift */,
+				7180AEB62A2B5CA300AD271D /* Constants.swift */,
 				7139FEA929FEA5CD0081AD59 /* ImagesList */,
 				717180CA2A0F8A5600C22CB8 /* Profile */,
 				7179564C2A122744006D84F8 /* SingleImageView */,
@@ -189,6 +192,7 @@
 				7139FEA829FEA5690081AD59 /* ImagesListCell.swift in Sources */,
 				7139FE7329FD1E020081AD59 /* SceneDelegate.swift in Sources */,
 				7139FE8629FE5B600081AD59 /* UIColor+Extensions.swift in Sources */,
+				7180AEB72A2B5CA300AD271D /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
