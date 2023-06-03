@@ -9,19 +9,19 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
+    var like: Bool! {
+        didSet {
+            let likeImage = like ? UIImage(named: "button_like_on") : UIImage(named: "button_like_off")
+            likeButton.setImage(likeImage, for: .normal)
+        }
+    }
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak private var likeButton: UIButton!
-    
-    var likeButtonAction : (() -> ())?
-    
-    func setLike(_ like: Bool) {
-        let likeImage = like ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
-        likeButton.setImage(likeImage, for: .normal)
-    }
+    @IBOutlet private var likeButton: UIButton!
 
-    @IBAction private func likeButtonTap(_ sender: Any) {
-        likeButtonAction?()
+    @IBAction func didTapLikeButton(_ sender: Any) {
+        like = !like
     }
+    
 }
 

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Rectangle 168.png",
+      "filename" : "ipad.and.arrow.forward.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Rectangle 168@2x 1.png",
+      "filename" : "ipad.and.arrow.forward@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Rectangle 168@3x.png",
+      "filename" : "ipad.and.arrow.forward@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

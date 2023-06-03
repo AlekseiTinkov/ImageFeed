@@ -8,9 +8,9 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
-    @IBOutlet private var tableView: UITableView!
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +19,17 @@ final class ImagesListViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
     
     private lazy var dateFormatter: DateFormatter = {
@@ -30,7 +41,9 @@ final class ImagesListViewController: UIViewController {
 }
 
 extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return 0 }
@@ -50,24 +63,16 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        imageListCell.likeButtonAction = { [] in
-            print("Testing aspect ratio\npicture number: \(indexPath.row)")
-            let image = UIImage(named: self.photosName[indexPath.row])
-            let imageWidth = image?.size.width ?? 0
-            let imageHeight = image?.size.height ?? 1
-            print("picture size: w=\(imageWidth), h=\(imageHeight), w/h=\(imageWidth / imageHeight)")
-            print("cellImage size: w=\(imageListCell.cellImage.bounds.width), h=\(imageListCell.cellImage.bounds.height), w/h=\(imageListCell.cellImage.bounds.width / imageListCell.cellImage.bounds.height)")
-        }
-        
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return }
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
-        cell.setLike(indexPath.row % 2 != 0)
+        cell.like = (indexPath.row % 2 != 0)
     }
 }
 
