@@ -30,15 +30,6 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-//        print(">>> Code = \(code)")
-//        OAuth2Service.shared.fetchOAuthToken(code, completion: { result in
-//            switch result {
-//            case .success(let token):
-//                print(">>> Token = \(token)")
-//            case .failure(let error):
-//                print(">>> Error = \(error)")
-//            }
-//        })
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
