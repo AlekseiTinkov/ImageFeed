@@ -24,7 +24,7 @@ final class WebViewViewController: UIViewController {
         
         webView.navigationDelegate = self
         let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
+        guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
             URLQueryItem(name: "redirect_uri", value: RedirectURI),
@@ -65,7 +65,7 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }
