@@ -24,6 +24,7 @@
 		7180AEB92A2B79AA00AD271D /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7180AEB82A2B79AA00AD271D /* AuthViewController.swift */; };
 		7180AEBC2A2B7E7B00AD271D /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7180AEBB2A2B7E7B00AD271D /* WebViewViewController.swift */; };
 		71AE683E2A3722FA007593BA /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 71AE683D2A3722FA007593BA /* ProgressHUD */; };
+		71AE68412A391CE3007593BA /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE68402A391CE3007593BA /* UIBlockingProgressHUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		7180AEB62A2B5CA300AD271D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7180AEB82A2B79AA00AD271D /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		7180AEBB2A2B7E7B00AD271D /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		71AE68402A391CE3007593BA /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				7180AEBA2A2B7A0E00AD271D /* Auth */,
 				7139FEA929FEA5CD0081AD59 /* ImagesList */,
 				717180CA2A0F8A5600C22CB8 /* Profile */,
+				71AE683F2A391C8C007593BA /* Services */,
 				7179564C2A122744006D84F8 /* SingleImageView */,
 				7142DBF32A31D1E6000C38AB /* Splash */,
 				7139FE7629FD1E020081AD59 /* Main.storyboard */,
@@ -145,6 +148,14 @@
 				7103AE3F2A30779C001F4A47 /* OAuth2TokenStorage.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		71AE683F2A391C8C007593BA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				71AE68402A391CE3007593BA /* UIBlockingProgressHUD.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +248,7 @@
 				7139FE8629FE5B600081AD59 /* UIColor+Extensions.swift in Sources */,
 				7180AEB92A2B79AA00AD271D /* AuthViewController.swift in Sources */,
 				7180AEB72A2B5CA300AD271D /* Constants.swift in Sources */,
+				71AE68412A391CE3007593BA /* UIBlockingProgressHUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
