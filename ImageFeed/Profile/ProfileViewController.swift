@@ -13,6 +13,7 @@ final class ProfileViewController: UIViewController {
     private var nameLabel: UILabel?
     private var loginLabel: UILabel?
     private var descriptionLabel: UILabel?
+    private let profileService = ProfileService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,18 +31,10 @@ final class ProfileViewController: UIViewController {
                  color: .ypWhite,
                  font: UIFont.systemFont(ofSize: 13.0))
         addLogoutButton()
-    
-        guard let token =  OAuth2TokenStorage().token else { return }
-        ProfileService.shared.fetchProfile(token) {  result in
-            switch result {
-            case .success(let userProfile):
-                self.loginLabel?.text = userProfile.loginName
-                self.nameLabel?.text = userProfile.name
-                self.descriptionLabel?.text = userProfile.bio
-            case .failure(let error):
-                print(">>> Error = \(error)")
-            }
-        }
+        
+        self.nameLabel?.text = profileService.profile?.name
+        self.loginLabel?.text = profileService.profile?.loginName
+        self.descriptionLabel?.text = profileService.profile?.bio
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

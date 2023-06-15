@@ -9,11 +9,14 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    private let oauth2Service = OAuth2Service.shared
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = OAuth2TokenStorage().token {
+        if let token = OAuth2TokenStorage().token {
+            self.fetchProfile(token)
             switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
@@ -46,16 +49,34 @@ extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         print(">>> Code = \(code)")
         UIBlockingProgressHUD.show()
-        OAuth2Service.shared.fetchOAuthToken(code, completion: { result in
+        fetchToken(code)
+    }
+    
+    private func fetchToken(_ code: String) {
+        oauth2Service.fetchOAuthToken(code, completion: { result in
             switch result {
             case .success(let token):
                 print(">>> Token = \(token)")
-                self.switchToTabBarController()
-                UIBlockingProgressHUD.dismiss()
+                self.fetchProfile(token)
             case .failure(let error):
-                print(">>> Error = \(error)")
+                print(">>> Error fetch token: \(error)")
                 UIBlockingProgressHUD.dismiss()
             }
         })
+    }
+    
+    private func fetchProfile(_ token: String) {
+        print(">>> \(token)")
+        profileService.fetchProfile(token){ result in
+            switch result {
+            case .success:
+                print(self.profileService.profile?.name as Any)
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
+            case .failure:
+                print(">>> Error fetch profile")
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
     }
 }

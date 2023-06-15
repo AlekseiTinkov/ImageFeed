@@ -65,7 +65,9 @@ final class ProfileService {
         self.task = task
         task.resume()
     }
+}
     
+extension ProfileService {
     private func object(
         for request: URLRequest,
         completion: @escaping (Result<ProfileResult, Error>) -> Void
