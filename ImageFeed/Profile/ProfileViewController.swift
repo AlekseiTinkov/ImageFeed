@@ -14,6 +14,7 @@ final class ProfileViewController: UIViewController {
     private var loginLabel: UILabel?
     private var descriptionLabel: UILabel?
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +33,37 @@ final class ProfileViewController: UIViewController {
                  font: UIFont.systemFont(ofSize: 13.0))
         addLogoutButton()
         
-        self.nameLabel?.text = profileService.profile?.name
-        self.loginLabel?.text = profileService.profile?.loginName
-        self.descriptionLabel?.text = profileService.profile?.bio
+        updateProfileDetails(profile: profileService.profile)
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    private func updateProfileDetails(profile: Profile?) {
+        self.nameLabel?.text = profile?.name
+        self.loginLabel?.text = profile?.loginName
+        self.descriptionLabel?.text = profile?.bio
+    }
+    
+    private func updateAvatar() {                                   // 8
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        print(">>>> \(url)")
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
     
     private func addProfileImage(_ image: UIImage?) {
