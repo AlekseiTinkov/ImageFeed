@@ -39,7 +39,6 @@ final class ProfileImageService {
             switch result {
             case .success(let responseBody):
                 let profileImageURL = responseBody.profileImage.large
-                print(profileImageURL)
                 completion(.success(profileImageURL))
                 self.avatarURL = profileImageURL
                 NotificationCenter.default
@@ -65,15 +64,8 @@ extension ProfileImageService {
         for request: URLRequest,
         completion: @escaping (Result<UserResult, Error>) -> Void
     ) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<UserResult, Error> in
-                Result {
-                    return try decoder.decode(UserResult.self, from: data)
-                    
-                }
-            }
-            completion(response)
+        return urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
+            completion(result)
         }
     }
     

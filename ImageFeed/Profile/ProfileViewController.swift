@@ -62,7 +62,7 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        print(">>>> \(url)")
+        print(">>> \(url)")
         // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
     

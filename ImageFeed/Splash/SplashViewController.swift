@@ -62,6 +62,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 print(">>> Error fetch token: \(error)")
                 UIBlockingProgressHUD.dismiss()
+                self.showErrorAlert()
             }
         })
     }
@@ -78,13 +79,23 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 print(">>> Error fetch profile")
                 UIBlockingProgressHUD.dismiss()
+                self.showErrorAlert()
             }
         }
     }
     
-    //ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in }
-    
     private func fetchProfileImage(token: String, username: String) {
         profileImageService.fetchProfileImageURL(token: token, username: username){ _ in }
+    }
+    
+    private func showErrorAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему.",
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: "OK", style: .cancel)
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
 }
