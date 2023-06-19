@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
+    //private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
     private var profileImage: UIImageView?
     private var nameLabel: UILabel?
     private var loginLabel: UILabel?
@@ -63,13 +64,16 @@ final class ProfileViewController: UIViewController {
             let url = URL(string: profileImageURL)
         else { return }
         print(">>> \(url)")
-        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+        profileImage?.kf.setImage(with: url,
+                                  placeholder: UIImage(named: "NulProfileImage"))
     }
     
     private func addProfileImage(_ image: UIImage?) {
-        let profileImage = UIImageView(image: image ?? nulProfileImage)
+        let profileImage = UIImageView()
         profileImage.tintColor = .gray
         profileImage.translatesAutoresizingMaskIntoConstraints = false
+        profileImage.layer.cornerRadius = 35
+        profileImage.clipsToBounds = true
         view.addSubview(profileImage)
         profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
@@ -107,7 +111,7 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        profileImage?.image = nulProfileImage
+//        profileImage?.image = nulProfileImage
         nameLabel?.text = "NoName"
         loginLabel?.text = "@no.name"
         descriptionLabel?.text = "ho-ho-ho"
