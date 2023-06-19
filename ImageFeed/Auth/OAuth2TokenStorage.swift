@@ -5,7 +5,6 @@
 //  Created by Алексей Тиньков on 07.06.2023.
 //
 
-import Foundation
 import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
