@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    //private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
+    private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
     private var profileImage: UIImageView?
     private var nameLabel: UILabel?
     private var loginLabel: UILabel?
@@ -20,16 +20,16 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addProfileImage(UIImage(named: "MockProfileImage"))
+        addProfileImage(nulProfileImage)
         addProfileLabel(label: &nameLabel,
-                 text: "Екатерина Новикова",
+                 text: "",
                  color: .ypWhite, font: UIFont.boldSystemFont(ofSize: 23.0))
         addProfileLabel(label: &loginLabel,
-                 text: "@ekaterina_nov",
+                 text: "",
                  color: .ypGray,
                  font: UIFont.systemFont(ofSize: 13.0))
         addProfileLabel(label: &descriptionLabel,
-                 text: "Hellow, world!",
+                 text: "",
                  color: .ypWhite,
                  font: UIFont.systemFont(ofSize: 13.0))
         addLogoutButton()
@@ -58,7 +58,7 @@ final class ProfileViewController: UIViewController {
         self.descriptionLabel?.text = profile?.bio
     }
     
-    private func updateAvatar() {                                   // 8
+    private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
@@ -68,9 +68,9 @@ final class ProfileViewController: UIViewController {
                                   placeholder: UIImage(named: "NulProfileImage"))
     }
     
-    private func addProfileImage(_ image: UIImage?) {
-        let profileImage = UIImageView()
-        profileImage.tintColor = .gray
+    private func addProfileImage(_ image: UIImage) {
+        let profileImage = UIImageView(image: image)
+        profileImage.tintColor = .ypGray
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         profileImage.layer.cornerRadius = 35
         profileImage.clipsToBounds = true
@@ -111,9 +111,10 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-//        profileImage?.image = nulProfileImage
+        profileImage?.image = nulProfileImage
         nameLabel?.text = "NoName"
         loginLabel?.text = "@no.name"
         descriptionLabel?.text = "ho-ho-ho"
+        OAuth2TokenStorage().token = nil
     }
 }
