@@ -21,20 +21,11 @@ final class SplashViewController: UIViewController {
         if let token = OAuth2TokenStorage().token {
             self.fetchProfile(token)
         } else {
-//            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
-            
-//            создать AuthViewController.
-//            выставить делегатом себя viewController.delegate = self.
-//            выставить ему modalPresentationStyle равный .fullScreen;
-//            презентовать его, используя present(_:animated:completion:).
-            
             let storyboard = UIStoryboard(name: "Main", bundle: .main)
             let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
             viewController.delegate = self
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
-//            present(viewController, animated: true, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
-    
         }
     }
     
@@ -56,20 +47,6 @@ final class SplashViewController: UIViewController {
         self.logoImage = logoImage
     }
 }
-
-//extension SplashViewController {
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-//            guard
-//                let navigationController = segue.destination as? UINavigationController,
-//                let viewController = navigationController.viewControllers[0] as? AuthViewController
-//            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-//            viewController.delegate = self
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//           }
-//    }
-//}
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {

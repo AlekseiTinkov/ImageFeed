@@ -101,8 +101,8 @@
 				71AE683F2A391C8C007593BA /* Services */,
 				7179564C2A122744006D84F8 /* SingleImageView */,
 				7142DBF32A31D1E6000C38AB /* Splash */,
+				71A82ACF2A423C750054EC51 /* TabBar */,
 				7139FE7629FD1E020081AD59 /* Main.storyboard */,
-				71A82ACD2A40ECC50054EC51 /* TabBarController.swift */,
 				7139FE8429FE5B3D0081AD59 /* Helpers */,
 				7139FE7929FD1E030081AD59 /* Assets.xcassets */,
 				7139FE7B29FD1E030081AD59 /* LaunchScreen.storyboard */,
@@ -164,6 +164,14 @@
 				7103AE3F2A30779C001F4A47 /* OAuth2TokenStorage.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		71A82ACF2A423C750054EC51 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				71A82ACD2A40ECC50054EC51 /* TabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		71AE683F2A391C8C007593BA /* Services */ = {
