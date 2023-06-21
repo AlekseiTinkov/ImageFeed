@@ -34,7 +34,7 @@ final class ProfileImageService {
         if lastUsername == username { return }
         task?.cancel()
         lastUsername = username
-        let request = selfProfileImageRequest(token: token, username: username)
+        let request = makeProfileImageRequest(token: token, username: username)
         let task = object(for: request) { (result: Result<UserResult, Error>) in
             switch result {
             case .success(let responseBody):
@@ -69,7 +69,7 @@ extension ProfileImageService {
         }
     }
     
-    private func selfProfileImageRequest(token: String, username: String) -> URLRequest {
+    private func makeProfileImageRequest(token: String, username: String) -> URLRequest {
         let url = DefaultBaseURL.appendingPathComponent("/users/\(username)")
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

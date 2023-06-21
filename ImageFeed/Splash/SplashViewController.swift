@@ -17,7 +17,6 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addLogoImage()
         if let token = OAuth2TokenStorage().token {
             self.fetchProfile(token)
         } else {
@@ -27,6 +26,11 @@ final class SplashViewController: UIViewController {
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addLogoImage()
     }
     
     private func switchToTabBarController() {
