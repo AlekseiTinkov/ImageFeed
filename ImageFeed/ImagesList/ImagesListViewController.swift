@@ -49,6 +49,12 @@ extension ImagesListViewController: UITableViewDelegate {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return 0 }
         return image.size.height / image.size.width * ( tableView.bounds.width - 16 * 2 ) + 4 * 2
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == ImagesListService().photos.count {
+            //ImagesListService().fetchPhotosNextPage()
+        }
+    }
 }
 
 

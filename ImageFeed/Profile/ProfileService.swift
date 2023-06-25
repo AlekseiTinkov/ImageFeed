@@ -47,7 +47,7 @@ final class ProfileService {
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
-        let request = selfProfileRequest(token)
+        let request = makeProfileRequest(token)
         let task = object(for: request) { (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let responseBody):
@@ -77,7 +77,7 @@ extension ProfileService {
         }
     }
     
-    private func selfProfileRequest(_ token: String) -> URLRequest {
+    private func makeProfileRequest(_ token: String) -> URLRequest {
         let url = DefaultBaseURL.appendingPathComponent("/me")
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
