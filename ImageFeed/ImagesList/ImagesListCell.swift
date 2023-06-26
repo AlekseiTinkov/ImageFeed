@@ -19,9 +19,15 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet private var likeButton: UIButton!
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
+        cellImage.kf.cancelDownloadTask()
+    }
+    
     @IBAction func didTapLikeButton(_ sender: Any) {
         like = !like
     }
     
 }
-

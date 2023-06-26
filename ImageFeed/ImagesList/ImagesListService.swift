@@ -82,6 +82,7 @@ final class ImagesListService {
                     $0.convertToViewModel()
                 }
                 self.photos += photos
+                self.lastLoadedPage = nextPage
                 print(">>> Read \(photos.count) new photos. Total \(self.photos.count) photos")
                 NotificationCenter.default
                     .post(
