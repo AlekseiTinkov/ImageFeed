@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
+    weak var delegate: ImagesListCellDelegate?
     static let reuseIdentifier = "ImagesListCell"
     var like: Bool! {
         didSet {
@@ -27,7 +32,9 @@ final class ImagesListCell: UITableViewCell {
     }
     
     @IBAction func didTapLikeButton(_ sender: Any) {
-        like = !like
+        //like = !like
+        UIBlockingProgressHUD.show()
+        delegate?.imageListCellDidTapLike(self)
     }
     
 }

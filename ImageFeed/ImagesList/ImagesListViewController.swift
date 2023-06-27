@@ -8,7 +8,6 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    //private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let nulPhotoImage = UIImage(named: "NulPhotoImage") ?? UIImage()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -98,18 +97,17 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
-
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ImagesListService.shared.photos.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { ///
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        
+        imageListCell.delegate = self
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -132,8 +130,27 @@ extension ImagesListViewController: UITableViewDataSource {
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-        cell.like = (indexPath.row % 2 != 0)
+        //cell.dateLabel.text = dateFormatter.string(from: Date())
+        //cell.like = (indexPath.row % 2 != 0)
+        cell.dateLabel.text = dateFormatter.string(from: ImagesListService.shared.photos[indexPath.row].createdAt)
+        cell.like = ImagesListService.shared.photos[indexPath.row].isLiked
+    }
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = ImagesListService.shared.photos[indexPath.row]
+        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
+            switch result {
+            case .success(let isLike):
+                cell.like = isLike
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print(">>> Error set like : \(error)")
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
     }
 }
 
