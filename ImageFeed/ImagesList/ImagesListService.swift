@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoResult: Decodable {
+private struct PhotoResult: Decodable {
     let id: String
     let width: Int
     let height: Int
@@ -37,6 +37,10 @@ struct PhotoResult: Decodable {
     }
 }
 
+private struct LikeResult: Decodable {
+    let photo: PhotoResult
+}
+
 struct Photo {
     let id: String
     let size: CGSize
@@ -44,7 +48,7 @@ struct Photo {
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
 }
 
 private extension PhotoResult {
@@ -75,7 +79,8 @@ final class ImagesListService {
         if task != nil { return }
         let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
         let request = makeImagesListRequest(page: nextPage)
-        let task = object(for: request) { (result: Result<[PhotoResult], Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+            guard let self = self else { return }
             switch result {
             case .success(let responseBody):
                 let photos = responseBody.map {
@@ -97,18 +102,31 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if task != nil { return }
+        let request = makeLikeRequest(photoId: photoId, isLike: isLike)
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikeResult, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let responseBody):
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    self.photos[index].isLiked = responseBody.photo.isLiked
+                }
+                completion(.success(responseBody.photo.isLiked))
+                self.task = nil
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        self.task = task
+        task.resume()
+    }
+ 
 }
 
 extension ImagesListService {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<[PhotoResult], Error>) -> Void
-    ) -> URLSessionTask {
-        return urlSession.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
-            completion(result)
-        }
-    }
-    
     private func makeImagesListRequest(page: Int) -> URLRequest {
         let url = DefaultBaseURL.appendingPathComponent("/photos")
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -123,6 +141,17 @@ extension ImagesListService {
         }
         
         var request = URLRequest(url: imagesListUrl)
+        request.setValue("Bearer \(OAuth2TokenStorage().token.unwrap)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    private func makeLikeRequest(photoId: String, isLike: Bool) -> URLRequest {
+        let httpMethod = isLike ? "POST" : "DELETE"
+        var request =  URLRequest.makeHTTPRequest(
+                path: "/photos/\(photoId)/like",
+                httpMethod: httpMethod,
+                baseURL: DefaultBaseURL
+            )
         request.setValue("Bearer \(OAuth2TokenStorage().token.unwrap)", forHTTPHeaderField: "Authorization")
         return request
     }

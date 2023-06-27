@@ -7,6 +7,19 @@
 
 import Foundation
 
+private struct OAuthTokenResponseBody: Decodable {
+    let accessToken: String
+    let tokenType: String
+    let scope: String
+    let createdAt: Int
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case tokenType = "token_type"
+        case scope
+        case createdAt = "created_at"
+    }
+}
+
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private let urlSession = URLSession.shared
@@ -27,7 +40,7 @@ final class OAuth2Service {
         task?.cancel()
         lastCode = code
         guard let request = authTokenRequest(code: code) else { return }
-        let task = object(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let body):
@@ -45,15 +58,6 @@ final class OAuth2Service {
 }
 
 extension OAuth2Service {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
-    ) -> URLSessionTask {
-        return urlSession.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
-            completion(result)
-        }
-    }
-    
     private func authTokenRequest(code: String) -> URLRequest? {
         guard let baseURL = URL(string: "https://unsplash.com") else { return nil }
         return URLRequest.makeHTTPRequest(
@@ -66,19 +70,6 @@ extension OAuth2Service {
             httpMethod: "POST",
             baseURL: baseURL
         )
-    }
-    
-    private struct OAuthTokenResponseBody: Decodable {
-        let accessToken: String
-        let tokenType: String
-        let scope: String
-        let createdAt: Int
-        enum CodingKeys: String, CodingKey {
-            case accessToken = "access_token"
-            case tokenType = "token_type"
-            case scope
-            case createdAt = "created_at"
-        }
     }
 }
 

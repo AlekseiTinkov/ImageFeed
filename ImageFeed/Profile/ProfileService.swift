@@ -48,7 +48,8 @@ final class ProfileService {
         task?.cancel()
         lastToken = token
         let request = makeProfileRequest(token)
-        let task = object(for: request) { (result: Result<ProfileResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self = self else { return }
             switch result {
             case .success(let responseBody):
                 self.profile = Profile(from: responseBody)
@@ -68,15 +69,6 @@ final class ProfileService {
 }
     
 extension ProfileService {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<ProfileResult, Error>) -> Void
-    ) -> URLSessionTask {
-        return urlSession.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
-            completion(result)
-        }
-    }
-    
     private func makeProfileRequest(_ token: String) -> URLRequest {
         let url = DefaultBaseURL.appendingPathComponent("/me")
         var request = URLRequest(url: url)
