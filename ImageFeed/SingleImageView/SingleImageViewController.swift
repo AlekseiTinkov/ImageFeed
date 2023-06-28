@@ -6,28 +6,48 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
+    var imageUrl: String!
+    
+//    var image: UIImage! {
+//        didSet {
+//            guard isViewLoaded else { return }
+//            imageView.image = image
+//            rescaleAndCenterImageInScrollView(image: image)
+//        }
+//    }
+    
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private weak var imageView: UIImageView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //imageView.image = image
+        scrollView.minimumZoomScale = 0.03
+        scrollView.maximumZoomScale = 1.25
+        showImage()
+    }
+    
+    private func showImage() {
+        guard
+            let url = URL(string: imageUrl)
+        else { return }
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: url)  { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showErrorAlert()
+            }
         }
     }
     
-    @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet private var imageView: UIImageView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        imageView.image = image
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 5 // для корректного отображения маленьких моков максимальный зум временно увеличен с 1.25 до 5
-        rescaleAndCenterImageInScrollView(image: image)
-    }
-    
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(image: UIImage?) {
+        guard let image else { return }
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -35,7 +55,7 @@ final class SingleImageViewController: UIViewController {
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale))) // исправил на масштабирование самой большой стороне
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
@@ -44,13 +64,27 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
+    private func showErrorAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Повторить", style: .default){ _ in
+            self.showImage()
+            }
+        )
+        alert.addAction(UIAlertAction(title: "Не надо", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     @IBAction private func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction private func didTapShareButton(_ sender: Any) {
         let share = UIActivityViewController(
-            activityItems: [image as Any],
+            activityItems: [imageView.image as Any],
             applicationActivities: nil
         )
         present(share, animated: true, completion: nil)

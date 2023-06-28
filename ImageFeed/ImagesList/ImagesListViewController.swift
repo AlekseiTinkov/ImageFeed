@@ -41,6 +41,7 @@ final class ImagesListViewController: UIViewController {
         if segue.identifier == ShowSingleImageSegueIdentifier {
             let viewController = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
+            viewController.imageUrl = ImagesListService.shared.photos[indexPath.row].largeImageURL
             //let image = UIImage(named: photosName[indexPath.row])
             //viewController.image = image
             // TO DO
@@ -114,7 +115,7 @@ extension ImagesListViewController: UITableViewDataSource {
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
 //        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
-//        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
 //
 //        cell.cellImage.image = image
         
@@ -124,7 +125,7 @@ extension ImagesListViewController: UITableViewDataSource {
         print(">>> \(indexPath.row)")
         print(">>> \(url)")
         cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage)
+        //cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage)
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)
