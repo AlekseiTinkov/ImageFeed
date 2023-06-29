@@ -110,10 +110,10 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        profileImage?.image = nulProfileImage
-        nameLabel.text = "NoName"
-        loginLabel.text = "@no.name"
-        descriptionLabel.text = "ho-ho-ho"
         OAuth2TokenStorage().token = nil
+        OAuth2Service.cleanCookie()
+        
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        window.rootViewController = SplashViewController()
     }
 }

@@ -13,10 +13,10 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauth2Service = OAuth2Service.shared
-//    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print(">>> SplashViewController")
         if let token = OAuth2TokenStorage().token {
             self.fetchProfile(token)
         } else {

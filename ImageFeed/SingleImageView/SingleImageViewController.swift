@@ -66,8 +66,8 @@ final class SingleImageViewController: UIViewController {
     
     private func showErrorAlert() {
         let alert = UIAlertController(
-            title: "Что-то пошло не так",
-            message: "Попробовать ещё раз?",
+            title: nil,
+            message: "Что-то пошло не так. Попробовать ещё раз?",
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "Повторить", style: .default){ _ in

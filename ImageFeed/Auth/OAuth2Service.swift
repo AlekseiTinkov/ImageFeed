@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WebKit
 
 private struct OAuthTokenResponseBody: Decodable {
     let accessToken: String
@@ -70,6 +71,20 @@ extension OAuth2Service {
             httpMethod: "POST",
             baseURL: baseURL
         )
+    }
+}
+
+extension OAuth2Service {
+    static func cleanCookie() {
+       // Очищаем все куки из хранилища.
+       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+       // Запрашиваем все данные из локального хранилища.
+       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+          // Массив полученных записей удаляем из хранилища.
+          records.forEach { record in
+             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+          }
+       }
     }
 }
 
