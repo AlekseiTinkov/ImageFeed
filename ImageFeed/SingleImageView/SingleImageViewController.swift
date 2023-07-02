@@ -11,19 +11,10 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     var imageUrl: String!
     
-//    var image: UIImage! {
-//        didSet {
-//            guard isViewLoaded else { return }
-//            imageView.image = image
-//            rescaleAndCenterImageInScrollView(image: image)
-//        }
-//    }
-    
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        //imageView.image = image
         scrollView.minimumZoomScale = 0.03
         scrollView.maximumZoomScale = 1.25
         showImage()

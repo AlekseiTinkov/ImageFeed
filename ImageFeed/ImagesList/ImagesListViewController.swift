@@ -42,23 +42,12 @@ final class ImagesListViewController: UIViewController {
             let viewController = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
             viewController.imageUrl = ImagesListService.shared.photos[indexPath.row].largeImageURL
-            //let image = UIImage(named: photosName[indexPath.row])
-            //viewController.image = image
-            // TO DO
-            guard
-                let url = URL(string: ImagesListService.shared.photos[indexPath.row].thumbImageURL)
-            else { return }
-            print(">>> \(url)")
-
-            
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
     
     private func updateTableViewAnimated() {
-//        print(">>> photos.count = \(ImagesListService.shared.photos.count)")
-        
         let oldCount = tableView.numberOfRows(inSection: 0)
         let newCount = ImagesListService.shared.photos.count
 
@@ -84,9 +73,6 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        guard let image = UIImage(named: photosName[indexPath.row]) else { return 0 }
-//        return image.size.height / image.size.width * ( tableView.bounds.width - 16 * 2 ) + 4 * 2
-        
         let imageSize = ImagesListService.shared.photos[indexPath.row].size
         return imageSize.height / imageSize.width * ( tableView.bounds.width - 16 * 2 ) + 4 * 2
     }
@@ -114,26 +100,22 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-//        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-//
-//        cell.cellImage.image = image
-        
         guard
             let url = URL(string: ImagesListService.shared.photos[indexPath.row].thumbImageURL)
         else { return }
         print(">>> \(indexPath.row)")
         print(">>> \(url)")
         cell.cellImage.kf.indicatorType = .activity
-        //cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage)
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        
-        //cell.dateLabel.text = dateFormatter.string(from: Date())
-        //cell.like = (indexPath.row % 2 != 0)
-        cell.dateLabel.text = dateFormatter.string(from: ImagesListService.shared.photos[indexPath.row].createdAt)
+        if let createdAt = ImagesListService.shared.photos[indexPath.row].createdAt {
+            cell.dateLabel.text = dateFormatter.string(from: createdAt)
+        } else {
+            cell.dateLabel.text = nil
+        }
         cell.like = ImagesListService.shared.photos[indexPath.row].isLiked
     }
 }

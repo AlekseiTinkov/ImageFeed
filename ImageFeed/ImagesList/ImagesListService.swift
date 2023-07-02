@@ -44,20 +44,20 @@ private struct LikeResult: Decodable {
 struct Photo {
     let id: String
     let size: CGSize
-    let createdAt: Date
+    let createdAt: Date?
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
     var isLiked: Bool
 }
 
+private var dateFormatter = ISO8601DateFormatter()
+
 private extension PhotoResult {
     func convertToViewModel() -> Photo {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return Photo(id: self.id,
               size: .init(width: self.width, height: self.height),
-              createdAt: formatter.date(from: self.createdAt) ?? Date(),
+              createdAt: dateFormatter.date(from: self.createdAt),
               welcomeDescription: self.welcomeDescription,
               thumbImageURL: self.urls.thumbImageURL,
               largeImageURL: self.urls.largeImageURL,
