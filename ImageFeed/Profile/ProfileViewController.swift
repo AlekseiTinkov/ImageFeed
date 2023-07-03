@@ -16,6 +16,7 @@ final class ProfileViewController: UIViewController {
     private var descriptionLabel: UILabel = UILabel()
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var animationLayers = Set<CALayer>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,9 @@ final class ProfileViewController: UIViewController {
         print(">>> \(url)")
         profileImage?.kf.setImage(with: url,
                                   placeholder: nulProfileImage)
+        animationLayers.forEach { gradient in
+            gradient.removeFromSuperlayer()
+        }
     }
     
     private func addProfileImage() {
@@ -79,7 +83,29 @@ final class ProfileViewController: UIViewController {
         profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
         profileImage.widthAnchor.constraint(equalToConstant: 70).isActive = true
         profileImage.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: 70, height: 70))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = 35
+        gradient.masksToBounds = true
+        animationLayers.insert(gradient)
+        profileImage.layer.addSublayer(gradient)
         self.profileImage = profileImage
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
     }
     
     private func addProfileLabel(label: UILabel, text: String?, color: UIColor, font: UIFont) {
@@ -92,6 +118,29 @@ final class ProfileViewController: UIViewController {
         label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         label.topAnchor.constraint(equalTo: yAnchor, constant: 8).isActive = true
+
+        let gradient = CAGradientLayer()
+        label.sizeToFit()
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width - 32, height: font.pointSize))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = font.pointSize / 2
+        gradient.masksToBounds = true
+        animationLayers.insert(gradient)
+        label.layer.addSublayer(gradient)
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
     }
     
     private func addLogoutButton() {
