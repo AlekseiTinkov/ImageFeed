@@ -88,7 +88,6 @@ final class ImagesListService {
                 }
                 self.photos += photos
                 self.lastLoadedPage = nextPage
-                print(">>> Read \(photos.count) new photos. Total \(self.photos.count) photos")
                 NotificationCenter.default
                     .post(
                         name: ImagesListService.DidChangeNotification,

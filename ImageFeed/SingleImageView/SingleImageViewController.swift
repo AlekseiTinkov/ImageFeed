@@ -61,11 +61,11 @@ final class SingleImageViewController: UIViewController {
             message: "Что-то пошло не так. Попробовать ещё раз?",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Повторить", style: .default){ _ in
+        alert.addAction(UIAlertAction(title: "Повторить", style: .default){ [weak self] _ in
+            guard let self else { return }
             self.showImage()
-            }
-        )
-        alert.addAction(UIAlertAction(title: "Не надо", style: .cancel, handler: nil))
+        })
+        alert.addAction(UIAlertAction(title: "Не надо", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     

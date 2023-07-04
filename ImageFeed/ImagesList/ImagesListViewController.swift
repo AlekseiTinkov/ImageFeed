@@ -74,7 +74,9 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let imageSize = ImagesListService.shared.photos[indexPath.row].size
-        return imageSize.height / imageSize.width * ( tableView.bounds.width - 16 * 2 ) + 4 * 2
+        let aspectRatio = imageSize.height / imageSize.width
+        let width = tableView.bounds.width - 16 * 2
+        return  aspectRatio * width + 4 * 2
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -104,8 +106,6 @@ extension ImagesListViewController: UITableViewDataSource {
         guard
             let url = URL(string: ImagesListService.shared.photos[indexPath.row].thumbImageURL)
         else { return }
-        print(">>> \(indexPath.row)")
-        print(">>> \(url)")
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
@@ -128,11 +128,10 @@ extension ImagesListViewController: ImagesListCellDelegate {
             switch result {
             case .success(let isLike):
                 cell.like = isLike
-                UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 print(">>> Error set like : \(error)")
-                UIBlockingProgressHUD.dismiss()
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
 }

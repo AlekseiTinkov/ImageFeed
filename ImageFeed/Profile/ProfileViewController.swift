@@ -63,7 +63,6 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        print(">>> \(url)")
         profileImage?.kf.setImage(with: url,
                                   placeholder: nulProfileImage)
     }
@@ -110,9 +109,22 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Да", style: .default){ [weak self] _ in
+            guard let self else { return }
+            self.logout()
+        })
+        alert.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    private func logout() {
         OAuth2TokenStorage().token = nil
         OAuth2Service.cleanCookie()
-        
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         window.rootViewController = SplashViewController()
     }

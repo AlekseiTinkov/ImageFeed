@@ -22,12 +22,11 @@ final class ImagesListCell: UITableViewCell {
     }
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
+
         cellImage.kf.cancelDownloadTask()
     }
     
