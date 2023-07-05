@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
+    weak var delegate: ImagesListCellDelegate?
     static let reuseIdentifier = "ImagesListCell"
     var like: Bool! {
         didSet {
@@ -17,11 +22,17 @@ final class ImagesListCell: UITableViewCell {
     }
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cellImage.kf.cancelDownloadTask()
+    }
+    
     @IBAction func didTapLikeButton(_ sender: Any) {
-        like = !like
+        UIBlockingProgressHUD.show()
+        delegate?.imageListCellDidTapLike(self)
     }
     
 }
-

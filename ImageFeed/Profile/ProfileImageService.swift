@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserResult: Decodable {
+private struct UserResult: Decodable {
     let profileImage: ProfileImage
     
     enum CodingKeys: String, CodingKey {
@@ -35,7 +35,8 @@ final class ProfileImageService {
         task?.cancel()
         lastUsername = username
         let request = makeProfileImageRequest(token: token, username: username)
-        let task = object(for: request) { (result: Result<UserResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
             switch result {
             case .success(let responseBody):
                 let profileImageURL = responseBody.profileImage.large
@@ -60,15 +61,6 @@ final class ProfileImageService {
 }
     
 extension ProfileImageService {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<UserResult, Error>) -> Void
-    ) -> URLSessionTask {
-        return urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
-            completion(result)
-        }
-    }
-    
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest {
         let url = DefaultBaseURL.appendingPathComponent("/users/\(username)")
         var request = URLRequest(url: url)

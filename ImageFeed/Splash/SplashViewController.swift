@@ -13,7 +13,6 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauth2Service = OAuth2Service.shared
-//    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -54,7 +53,6 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        print(">>> Code = \(code)")
         UIBlockingProgressHUD.show()
         fetchToken(code)
     }
@@ -63,7 +61,6 @@ extension SplashViewController: AuthViewControllerDelegate {
         oauth2Service.fetchOAuthToken(code, completion: { result in
             switch result {
             case .success(let token):
-                print(">>> Token = \(token)")
                 self.fetchProfile(token)
             case .failure(let error):
                 print(">>> Error fetch token: \(error)")
@@ -74,11 +71,9 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchProfile(_ token: String) {
-        print(">>> \(token)")
         profileService.fetchProfile(token){ result in
             switch result {
             case .success:
-                print(self.profileService.profile?.name as Any)
                 self.fetchProfileImage(token: token, username: self.profileService.profile?.username ?? "")
                 UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
