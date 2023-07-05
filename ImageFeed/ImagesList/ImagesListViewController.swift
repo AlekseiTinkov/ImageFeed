@@ -25,7 +25,7 @@ final class ImagesListViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                updateTableViewAnimated()
+                self.updateTableViewAnimated()
             }
     }
     
@@ -109,7 +109,7 @@ extension ImagesListViewController: UITableViewDataSource {
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         if let createdAt = ImagesListService.shared.photos[indexPath.row].createdAt {
             cell.dateLabel.text = dateFormatter.string(from: createdAt)
