@@ -13,7 +13,6 @@
         <!--Tab Bar Controller-->
         <scene sceneID="pZB-pa-xA8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9kR-Ke-wUb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tabBarController storyboardIdentifier="TabBarViewController" id="jUb-Vu-IH5" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Txb-c9-LMh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
@@ -25,13 +24,13 @@
                         </tabBarAppearance>
                     </tabBar>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9kR-Ke-wUb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1645" y="-397"/>
         </scene>
         <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ImagesListViewController" title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
@@ -126,13 +125,13 @@
                         <segue destination="93b-Tk-aVO" kind="presentation" identifier="ShowSingleImage" id="pOl-li-QLu"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-495" y="-397"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="04w-nQ-fna">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oRl-oT-pgJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController modalPresentationStyle="fullScreen" id="93b-Tk-aVO" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aoz-yd-hUq">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
@@ -202,6 +201,7 @@
                         <outlet property="scrollView" destination="yef-gn-pdN" id="KA8-JW-MgY"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oRl-oT-pgJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="475" y="-397"/>
         </scene>
@@ -260,7 +260,7 @@
         <!--Web View View Controller-->
         <scene sceneID="d0o-CS-pah">
             <objects>
-                <viewController id="6S0-pJ-imA" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="6S0-pJ-imA" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Czo-nc-axZ">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
