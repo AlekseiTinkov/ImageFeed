@@ -14,6 +14,8 @@ public protocol ImagesListViewPresenterProtocol {
     func getPhotosCount() -> Int
     func getImageListCell(indetPath: IndexPath) -> UITableViewCell
     func getHeightFotTableWiewRow(heightForRowAt indexPath: IndexPath) -> CGFloat
+    func isLastRow(indexPath: IndexPath) -> Bool
+    func fetchPhotosNextPage()
 }
 
 final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesListCellDelegate {
@@ -74,6 +76,14 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
         let aspectRatio = imageSize.height / imageSize.width
         let width = (view?.getTableViewBoundsWidth() ?? 0) - 16 * 2
         return  aspectRatio * width + 4 * 2
+    }
+    
+    func isLastRow(indexPath: IndexPath) -> Bool {
+        return indexPath.row + 1 == ImagesListService.shared.photos.count
+    }
+    
+    func fetchPhotosNextPage() {
+        ImagesListService.shared.fetchPhotosNextPage()
     }
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
