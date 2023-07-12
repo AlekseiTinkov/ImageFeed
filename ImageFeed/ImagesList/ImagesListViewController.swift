@@ -7,26 +7,26 @@
 
 import UIKit
 
-final class ImagesListViewController: UIViewController {
-    private let nulPhotoImage = UIImage(named: "NulPhotoImage") ?? UIImage()
+public protocol ImagesListViewControllerProtocol: UIViewController {
+    var presenter: ImagesListViewPresenterProtocol? { get set }
+    func getTableViewNumberOfRows() -> Int
+    func getTableViewIndexPath(cell: ImagesListCell) -> IndexPath?
+    func getTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func getTableViewBoundsWidth() -> CGFloat
+    func insertTableViewRows(newPath: [IndexPath])
+    func reloadTableViewRows(indexPaths: [IndexPath])
+}
+
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
+    var presenter: ImagesListViewPresenterProtocol?
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private var imagesListServiceObserver: NSObjectProtocol?
     
     @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
-        imagesListServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ImagesListService.DidChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateTableViewAnimated()
-            }
+        presenter?.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,24 +47,31 @@ final class ImagesListViewController: UIViewController {
         }
     }
     
-    private func updateTableViewAnimated() {
-        let oldCount = tableView.numberOfRows(inSection: 0)
-        let newCount = ImagesListService.shared.photos.count
-
-        if oldCount < newCount {
-            let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
-            tableView.performBatchUpdates {
-                tableView.insertRows(at: newPaths, with: .automatic)
-            }
+    func getTableViewNumberOfRows() -> Int {
+        return tableView.numberOfRows(inSection: 0)
+    }
+    
+    func getTableViewIndexPath(cell: ImagesListCell) -> IndexPath? {
+        return tableView.indexPath(for: cell)
+    }
+    
+    func insertTableViewRows(newPath: [IndexPath]) {
+        tableView.performBatchUpdates {
+            tableView.insertRows(at: newPath, with: .automatic)
         }
     }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
+    func reloadTableViewRows(indexPaths: [IndexPath]) {
+        tableView.reloadRows(at: indexPaths, with: .automatic)
+    }
+    
+    func getTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+    }
+    
+    func getTableViewBoundsWidth() -> CGFloat {
+        return tableView.bounds.width
+    }
 }
 
 extension ImagesListViewController: UITableViewDelegate {
@@ -73,10 +80,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let imageSize = ImagesListService.shared.photos[indexPath.row].size
-        let aspectRatio = imageSize.height / imageSize.width
-        let width = tableView.bounds.width - 16 * 2
-        return  aspectRatio * width + 4 * 2
+        return presenter?.getHeightFotTableWiewRow(heightForRowAt: indexPath) ?? 0
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -88,51 +92,17 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ImagesListService.shared.photos.count
+        return presenter?.getPhotosCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        guard let imageListCell = cell as? ImagesListCell else {
-            return UITableViewCell()
-        }
-        imageListCell.delegate = self
-        configCell(for: imageListCell, with: indexPath)
-        return imageListCell
-    }
-    
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        guard
-            let url = URL(string: ImagesListService.shared.photos[indexPath.row].thumbImageURL)
-        else { return }
-        cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
-            guard let self else { return }
-            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-        if let createdAt = ImagesListService.shared.photos[indexPath.row].createdAt {
-            cell.dateLabel.text = dateFormatter.string(from: createdAt)
-        } else {
-            cell.dateLabel.text = nil
-        }
-        cell.like = ImagesListService.shared.photos[indexPath.row].isLiked
+        presenter?.getImageListCell(indetPath: indexPath) ?? UITableViewCell()
     }
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let photo = ImagesListService.shared.photos[indexPath.row]
-        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
-            switch result {
-            case .success(let isLike):
-                cell.like = isLike
-            case .failure(let error):
-                print(">>> Error set like : \(error)")
-            }
-            UIBlockingProgressHUD.dismiss()
-        }
+        presenter?.imageListCellDidTapLike(cell)
     }
 }
 
