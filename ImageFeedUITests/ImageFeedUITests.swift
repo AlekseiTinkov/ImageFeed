@@ -64,14 +64,15 @@ class Image_FeedUITests: XCTestCase {
         sleep(2)
         cellToLike.buttons["LikeButton"].tap()
         
-        sleep(2)
-        cellToLike.buttons["button like off"].tap()
+        sleep(5)
+        //window?.isUserInteractionEnabled = true
+        cellToLike.buttons["LikeButton"].tap()
         
         sleep(2)
         
         cellToLike.tap()
         
-        sleep(2)
+        sleep(10)
         
         let image = app.scrollViews.images.element(boundBy: 0)
         // Zoom in
@@ -95,6 +96,10 @@ class Image_FeedUITests: XCTestCase {
         
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
     }
+}
+
+private var window: UIWindow? {
+    return UIApplication.shared.windows.first
 }
 
 

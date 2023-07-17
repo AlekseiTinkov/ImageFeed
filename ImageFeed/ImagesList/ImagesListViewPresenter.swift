@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 public protocol ImagesListViewPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
@@ -52,6 +53,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = view?.getTableViewIndexPath(cell: cell) else { return }
+        print(">>> Like pressed")
+        ProgressHUD.show()
         let photo = imagesListService.photos[indexPath.row]
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
             switch result {
@@ -60,7 +63,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
             case .failure(let error):
                 print(">>> Error set like : \(error)")
             }
-            UIBlockingProgressHUD.dismiss()
+            ProgressHUD.dismiss()
+            //UIBlockingProgressHUD.dismiss()
         }
     }
     

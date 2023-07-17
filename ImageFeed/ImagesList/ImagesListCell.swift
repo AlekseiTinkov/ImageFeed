@@ -31,7 +31,6 @@ public final class ImagesListCell: UITableViewCell {
     }
     
     @IBAction func didTapLikeButton(_ sender: Any) {
-        UIBlockingProgressHUD.show()
         delegate?.imageListCellDidTapLike(self)
     }
     
