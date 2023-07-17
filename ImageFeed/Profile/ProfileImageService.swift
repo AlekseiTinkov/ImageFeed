@@ -21,7 +21,12 @@ struct ProfileImage: Decodable {
     let large: String
 }
 
-final class ProfileImageService {
+protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+    func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void)
+}
+
+final class ProfileImageService: ProfileImageServiceProtocol {
     private var task: URLSessionTask?
     private var lastUsername: String?
     private let urlSession = URLSession.shared

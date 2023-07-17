@@ -66,7 +66,13 @@ private extension PhotoResult {
     }
 }
 
-final class ImagesListService {
+protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     private var task: URLSessionTask?
     private let urlSession = URLSession.shared
     static let shared = ImagesListService()

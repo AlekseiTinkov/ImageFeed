@@ -8,10 +8,12 @@
 import UIKit
 import Kingfisher
 
-public protocol ProfileViewControllerProtocol: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
     var presenter: ProfileViewPresenterProtocol? { get set }
     func updateAvatar(_ url: URL)
     func updateProfileDetails(profile: Profile?)
+    func presentViewController(viewContriller: UIViewController)
+    func didTapLogoutButton()
 }
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
@@ -101,8 +103,12 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
                                   placeholder: nulProfileImage)
     }
     
+    func presentViewController(viewContriller: UIViewController) {
+        self.present(viewContriller, animated: true)
+    }
+    
     @objc
-    private func didTapLogoutButton() {
+    internal func didTapLogoutButton() {
         presenter?.didTapLogoutButton()
     }
 

@@ -21,7 +21,12 @@ public protocol ImagesListViewPresenterProtocol {
 final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesListCellDelegate {
     weak var view: ImagesListViewControllerProtocol?
     private var imagesListServiceObserver: NSObjectProtocol?
+    private var imagesListService: ImagesListServiceProtocol
     private let nulPhotoImage = UIImage(named: "NulPhotoImage") ?? UIImage()
+    
+    init(imagesListService: ImagesListServiceProtocol) {
+        self.imagesListService = imagesListService
+    }
     
     func viewDidLoad() {
         imagesListServiceObserver = NotificationCenter.default
@@ -37,7 +42,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     
     private func updateTableViewAnimated() {
         let oldCount = view?.getTableViewNumberOfRows() ?? 0
-        let newCount = ImagesListService.shared.photos.count
+        let newCount = imagesListService.photos.count
 
         if oldCount < newCount {
             let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
@@ -47,8 +52,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = view?.getTableViewIndexPath(cell: cell) else { return }
-        let photo = ImagesListService.shared.photos[indexPath.row]
-        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
+        let photo = imagesListService.photos[indexPath.row]
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
             switch result {
             case .success(let isLike):
                 cell.like = isLike
@@ -60,7 +65,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     }
     
     func getPhotosCount() -> Int {
-        return ImagesListService.shared.photos.count
+        return imagesListService.photos.count
     }
     
     func getImageListCell(indetPath indexPath: IndexPath) -> UITableViewCell {
@@ -72,37 +77,37 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     }
     
     func getHeightFotTableWiewRow(heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let imageSize = ImagesListService.shared.photos[indexPath.row].size
+        let imageSize = imagesListService.photos[indexPath.row].size
         let aspectRatio = imageSize.height / imageSize.width
         let width = (view?.getTableViewBoundsWidth() ?? 0) - 16 * 2
         return  aspectRatio * width + 4 * 2
     }
     
     func isLastRow(indexPath: IndexPath) -> Bool {
-        return indexPath.row + 1 == ImagesListService.shared.photos.count
+        return indexPath.row + 1 == imagesListService.photos.count
     }
     
     func fetchPhotosNextPage() {
-        ImagesListService.shared.fetchPhotosNextPage()
+        imagesListService.fetchPhotosNextPage()
     }
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         guard
-            let url = URL(string: ImagesListService.shared.photos[indexPath.row].thumbImageURL)
+            let url = URL(string: imagesListService.photos[indexPath.row].thumbImageURL)
         else { return }
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
-            view?.reloadTableViewRows(indexPaths: [indexPath])
+            self.view?.reloadTableViewRows(indexPaths: [indexPath])
             //self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        if let createdAt = ImagesListService.shared.photos[indexPath.row].createdAt {
+        if let createdAt = imagesListService.photos[indexPath.row].createdAt {
             cell.dateLabel.text = dateFormatter.string(from: createdAt)
         } else {
             cell.dateLabel.text = nil
         }
-        cell.like = ImagesListService.shared.photos[indexPath.row].isLiked
+        cell.like = imagesListService.photos[indexPath.row].isLiked
     }
     
     private lazy var dateFormatter: DateFormatter = {

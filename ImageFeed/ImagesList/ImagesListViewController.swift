@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ImagesListViewControllerProtocol: UIViewController {
+public protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListViewPresenterProtocol? { get set }
     func getTableViewNumberOfRows() -> Int
     func getTableViewIndexPath(cell: ImagesListCell) -> IndexPath?
@@ -15,6 +15,7 @@ public protocol ImagesListViewControllerProtocol: UIViewController {
     func getTableViewBoundsWidth() -> CGFloat
     func insertTableViewRows(newPath: [IndexPath])
     func reloadTableViewRows(indexPaths: [IndexPath])
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {

@@ -16,9 +16,16 @@ public protocol ProfileViewPresenterProtocol {
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let profileService: ProfileServiceProtocol
+    private let profileImageService: ProfileImageServiceProtocol
+    
+    init(profileService: ProfileServiceProtocol, profileImageService: ProfileImageServiceProtocol) {
+        self.profileService = profileService
+        self.profileImageService = profileImageService
+    }
     
     func viewDidLoad() {
-        view?.updateProfileDetails(profile: ProfileService.shared.profile)
+        view?.updateProfileDetails(profile: profileService.profile)
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.DidChangeNotification,
@@ -33,7 +40,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     
     private func updateAvatar() {
         guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let profileImageURL = profileImageService.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
         view?.updateAvatar(url)
@@ -50,7 +57,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
             self.logout()
         })
         alert.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
-        view?.present(alert, animated: true)
+        view?.presentViewController(viewContriller: alert)
     }
     
     private func logout() {

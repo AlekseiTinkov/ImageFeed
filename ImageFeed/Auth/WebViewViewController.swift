@@ -36,7 +36,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
                     changeHandler: { [weak self] _, _ in
                         guard let self = self else { return }
 //                        self.updateProgress()
-                        presenter?.didUpdateProgressValue(webView.estimatedProgress)
+                        self.presenter?.didUpdateProgressValue(self.webView.estimatedProgress)
                     })
         
         webView.navigationDelegate = self
