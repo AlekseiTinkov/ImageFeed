@@ -65,7 +65,8 @@ class Image_FeedUITests: XCTestCase {
         cellToLike.buttons["LikeButton"].tap()
         
         sleep(5)
-        //window?.isUserInteractionEnabled = true
+        cell.swipeRight()
+
         cellToLike.buttons["LikeButton"].tap()
         
         sleep(2)
@@ -75,9 +76,9 @@ class Image_FeedUITests: XCTestCase {
         sleep(10)
         
         let image = app.scrollViews.images.element(boundBy: 0)
-        // Zoom in
+
         image.pinch(withScale: 3, velocity: 1) // zoom in
-        // Zoom out
+
         image.pinch(withScale: 0.5, velocity: -1)
         
         let navBackButtonWhiteButton = app.buttons["BackButton"]
@@ -96,10 +97,6 @@ class Image_FeedUITests: XCTestCase {
         
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
     }
-}
-
-private var window: UIWindow? {
-    return UIApplication.shared.windows.first
 }
 
 

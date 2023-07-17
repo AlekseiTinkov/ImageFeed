@@ -15,7 +15,6 @@ public protocol ImagesListViewControllerProtocol: AnyObject {
     func getTableViewBoundsWidth() -> CGFloat
     func insertTableViewRows(newPath: [IndexPath])
     func reloadTableViewRows(indexPaths: [IndexPath])
-    func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
@@ -49,7 +48,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     }
     
     func getTableViewNumberOfRows() -> Int {
-        return tableView.numberOfRows(inSection: 0)
+        return tableView?.numberOfRows(inSection: 0) ?? 0
     }
     
     func getTableViewIndexPath(cell: ImagesListCell) -> IndexPath? {
@@ -98,12 +97,6 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         presenter?.getImageListCell(indetPath: indexPath) ?? UITableViewCell()
-    }
-}
-
-extension ImagesListViewController: ImagesListCellDelegate {
-    func imageListCellDidTapLike(_ cell: ImagesListCell) {
-        presenter?.imageListCellDidTapLike(cell)
     }
 }
 

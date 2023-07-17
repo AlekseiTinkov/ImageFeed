@@ -48,19 +48,16 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
         self.profile = profile
     }
     
-    func presentViewController(viewContriller: UIViewController) {
-    }
+    func presentViewController(viewContriller: UIViewController) {}
     
-    func didTapLogoutButton() {
-    }
+    func didTapLogoutButton() {}
 }
 
 final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
     var logoutCalled = false
     var view: ImageFeed.ProfileViewControllerProtocol?
     
-    func viewDidLoad() {
-    }
+    func viewDidLoad() {}
     
     func didTapLogoutButton() {
         self.logoutCalled = true

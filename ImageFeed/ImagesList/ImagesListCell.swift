@@ -30,7 +30,7 @@ public final class ImagesListCell: UITableViewCell {
         cellImage.kf.cancelDownloadTask()
     }
     
-    @IBAction func didTapLikeButton(_ sender: Any) {
+    @IBAction private func didTapLikeButton(_ sender: Any) {
         delegate?.imageListCellDidTapLike(self)
     }
     

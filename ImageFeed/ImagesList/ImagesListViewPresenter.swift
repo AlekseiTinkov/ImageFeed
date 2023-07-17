@@ -11,7 +11,6 @@ import ProgressHUD
 public protocol ImagesListViewPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
     func viewDidLoad()
-    func imageListCellDidTapLike(_ cell: ImagesListCell)
     func getPhotosCount() -> Int
     func getImageListCell(indetPath: IndexPath) -> UITableViewCell
     func getHeightFotTableWiewRow(heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -64,7 +63,6 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
                 print(">>> Error set like : \(error)")
             }
             ProgressHUD.dismiss()
-            //UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -73,7 +71,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     }
     
     func getImageListCell(indetPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = view?.getTableViewCell(cellForRowAt: indexPath) //tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        let cell = view?.getTableViewCell(cellForRowAt: indexPath)
         guard let imageListCell = cell as? ImagesListCell else { return UITableViewCell() }
         imageListCell.delegate = self
         configCell(for: imageListCell, with: indexPath)
@@ -104,7 +102,6 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
         cell.cellImage.kf.setImage(with: url, placeholder: nulPhotoImage) {[weak self] _ in
             guard let self else { return }
             self.view?.reloadTableViewRows(indexPaths: [indexPath])
-            //self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         if let createdAt = imagesListService.photos[indexPath.row].createdAt {
             cell.dateLabel.text = dateFormatter.string(from: createdAt)
