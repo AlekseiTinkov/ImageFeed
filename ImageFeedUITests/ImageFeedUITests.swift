@@ -57,23 +57,22 @@ class Image_FeedUITests: XCTestCase {
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         cell.swipeUp()
         
-        sleep(2)
+        _ = cell.waitForExistence(timeout: 2)
         
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
         
-        sleep(2)
+        _ = cellToLike.waitForExistence(timeout: 2)
         cellToLike.buttons["LikeButton"].tap()
         
-        sleep(5)
-        cell.swipeRight()
+        _ = cellToLike.waitForExistence(timeout: 3)
 
         cellToLike.buttons["LikeButton"].tap()
         
-        sleep(2)
+        _ = cellToLike.waitForExistence(timeout: 3)
         
         cellToLike.tap()
         
-        sleep(10)
+        _ = cellToLike.waitForExistence(timeout: 10)
         
         let image = app.scrollViews.images.element(boundBy: 0)
 
