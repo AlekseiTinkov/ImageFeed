@@ -20,40 +20,6 @@ final class ImagesListServiceSpy: ImagesListServiceProtocol {
     }
 }
 
-final class I: ImagesListViewControllerProtocol {
-    var presenter: ImageFeed.ImagesListViewPresenterProtocol?
-    
-    func getTableViewNumberOfRows() -> Int {
-        <#code#>
-    }
-    
-    func getTableViewIndexPath(cell: ImageFeed.ImagesListCell) -> IndexPath? {
-        <#code#>
-    }
-    
-    func getTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
-    
-    func getTableViewBoundsWidth() -> CGFloat {
-        <#code#>
-    }
-    
-    func insertTableViewRows(newPath: [IndexPath]) {
-        <#code#>
-    }
-    
-    func reloadTableViewRows(indexPaths: [IndexPath]) {
-        <#code#>
-    }
-    
-    func imageListCellDidTapLike(_ cell: ImageFeed.ImagesListCell) {
-        <#code#>
-    }
-    
-    
-}
-
 final class ImagesListTests: XCTestCase {
     func testL() {
         //given

@@ -108,6 +108,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
             cell.dateLabel.text = nil
         }
         cell.like = imagesListService.photos[indexPath.row].isLiked
+        cell.likeButton.accessibilityIdentifier = "LikeButton"
     }
     
     private lazy var dateFormatter: DateFormatter = {

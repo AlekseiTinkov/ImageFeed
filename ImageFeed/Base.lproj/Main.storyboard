@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -170,7 +170,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-GZ-3FY" userLabel="BackButton">
-                                <rect key="frame" x="28" y="8" width="48" height="48"/>
+                                <rect key="frame" x="28" y="55" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="8zS-tS-gyW"/>
                                     <constraint firstAttribute="width" constant="48" id="e8L-He-DYY"/>
@@ -197,6 +197,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="tdh-Og-pPT"/>
                     <connections>
+                        <outlet property="backButton" destination="RoU-GZ-3FY" id="of9-86-PEG"/>
                         <outlet property="imageView" destination="pSD-ke-XWb" id="8tf-gI-yW2"/>
                         <outlet property="scrollView" destination="yef-gn-pdN" id="KA8-JW-MgY"/>
                     </connections>
@@ -252,6 +253,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xye-2V-jIB"/>
+                    <connections>
+                        <outlet property="loginButton" destination="qGg-gt-fUU" id="wCp-pL-LZ9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g8R-Tf-PfZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -274,7 +278,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OlM-1A-9mz">
-                                <rect key="frame" x="9" y="10" width="24" height="24"/>
+                                <rect key="frame" x="9" y="57" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="GcV-mS-DmI"/>
                                     <constraint firstAttribute="width" constant="24" id="hK3-59-umr"/>
@@ -286,7 +290,7 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1lE-cN-6Mm">
-                                <rect key="frame" x="0.0" y="34" width="390" height="4"/>
+                                <rect key="frame" x="0.0" y="81" width="390" height="4"/>
                                 <color key="progressTintColor" name="YP Black"/>
                             </progressView>
                         </subviews>

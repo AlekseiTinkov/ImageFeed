@@ -40,6 +40,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
                     })
         
         webView.navigationDelegate = self
+        webView.accessibilityIdentifier = "UnsplashWebView"
 //        let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 //        guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else { return }
 //        urlComponents.queryItems = [

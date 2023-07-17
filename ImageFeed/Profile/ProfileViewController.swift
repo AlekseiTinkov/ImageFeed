@@ -90,6 +90,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         view.addSubview(logoutButton)
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         logoutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        logoutButton.accessibilityIdentifier = "LogoutButton"
     }
     
     func updateProfileDetails(profile: Profile?) {
