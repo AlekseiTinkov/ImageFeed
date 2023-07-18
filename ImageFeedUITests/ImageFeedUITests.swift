@@ -9,8 +9,8 @@
 import XCTest
 
 class Image_FeedUITests: XCTestCase {
-    let testEmail = "boofle@outlook.com"
-    let testPassword = "8HfxT*Rc99!i>E7"
+    let testEmail = ""
+    let testPassword = ""
     let testName = "Aleksei Tinkov"
     let testUsername = "@boofle"
     
