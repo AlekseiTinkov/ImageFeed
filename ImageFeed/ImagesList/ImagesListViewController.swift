@@ -11,10 +11,10 @@ public protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListViewPresenterProtocol? { get set }
     func getTableViewNumberOfRows() -> Int
     func getTableViewIndexPath(cell: ImagesListCell) -> IndexPath?
-    func getTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func getTableViewBoundsWidth() -> CGFloat
     func insertTableViewRows(newPath: [IndexPath])
     func reloadTableViewRows(indexPaths: [IndexPath])
+    func setLike(indexPath: IndexPath, isLike: Bool)
 }
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
@@ -25,12 +25,8 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         presenter?.viewDidLoad()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        ImagesListService.shared.fetchPhotosNextPage()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -65,12 +61,13 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         tableView.reloadRows(at: indexPaths, with: .automatic)
     }
     
-    func getTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-    }
-    
     func getTableViewBoundsWidth() -> CGFloat {
         return tableView.bounds.width
+    }
+    
+    func setLike(indexPath: IndexPath, isLike: Bool) {
+        let cell = tableView.cellForRow(at: indexPath) as! ImagesListCell
+        cell.like = isLike
     }
 }
 
@@ -96,7 +93,11 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        presenter?.getImageListCell(indetPath: indexPath) ?? UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        guard let imageListCell = cell as? ImagesListCell else { return UITableViewCell() }
+        imageListCell.delegate = presenter as? any ImagesListCellDelegate
+        presenter?.configCell(for: imageListCell, with: indexPath)
+        return imageListCell
     }
 }
 

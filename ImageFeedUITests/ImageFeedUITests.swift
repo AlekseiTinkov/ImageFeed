@@ -14,12 +14,11 @@ class Image_FeedUITests: XCTestCase {
     let testName = "Aleksei Tinkov"
     let testUsername = "@boofle"
     
-    private let app = XCUIApplication() // переменная приложения
+    private let app = XCUIApplication()
     
     override func setUpWithError() throws {
-        continueAfterFailure = false // настройка выполнения тестов, которая прекратит выполнения тестов, если в тесте что-то пошло не так
-        
-        app.launch() // запускаем приложение перед каждым тестом
+        continueAfterFailure = false
+        app.launch()
     }
     
     func testAuth() throws {

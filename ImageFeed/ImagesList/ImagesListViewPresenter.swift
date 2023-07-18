@@ -12,17 +12,17 @@ public protocol ImagesListViewPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
     func viewDidLoad()
     func getPhotosCount() -> Int
-    func getImageListCell(indetPath: IndexPath) -> UITableViewCell
     func getHeightFotTableWiewRow(heightForRowAt indexPath: IndexPath) -> CGFloat
     func isLastRow(indexPath: IndexPath) -> Bool
     func fetchPhotosNextPage()
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath)
 }
 
 final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesListCellDelegate {
     weak var view: ImagesListViewControllerProtocol?
     private var imagesListServiceObserver: NSObjectProtocol?
-    private var imagesListService: ImagesListServiceProtocol
     private let nulPhotoImage = UIImage(named: "NulPhotoImage") ?? UIImage()
+    var imagesListService: ImagesListServiceProtocol
     
     init(imagesListService: ImagesListServiceProtocol) {
         self.imagesListService = imagesListService
@@ -38,6 +38,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
                 guard let self = self else { return }
                 self.updateTableViewAnimated()
             }
+        imagesListService.fetchPhotosNextPage()
     }
     
     private func updateTableViewAnimated() {
@@ -52,13 +53,16 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = view?.getTableViewIndexPath(cell: cell) else { return }
-        print(">>> Like pressed")
+        changeLike(indexPath: indexPath)
+    }
+    
+    func changeLike(indexPath: IndexPath) {
         ProgressHUD.show()
         let photo = imagesListService.photos[indexPath.row]
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) {(result: Result<Bool, Error>) in
             switch result {
             case .success(let isLike):
-                cell.like = isLike
+                self.view?.setLike(indexPath: indexPath, isLike: isLike)
             case .failure(let error):
                 print(">>> Error set like : \(error)")
             }
@@ -68,14 +72,6 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
     
     func getPhotosCount() -> Int {
         return imagesListService.photos.count
-    }
-    
-    func getImageListCell(indetPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = view?.getTableViewCell(cellForRowAt: indexPath)
-        guard let imageListCell = cell as? ImagesListCell else { return UITableViewCell() }
-        imageListCell.delegate = self
-        configCell(for: imageListCell, with: indexPath)
-        return imageListCell
     }
     
     func getHeightFotTableWiewRow(heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,7 +89,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol, ImagesList
         imagesListService.fetchPhotosNextPage()
     }
     
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+   func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         guard
             let url = URL(string: imagesListService.photos[indexPath.row].thumbImageURL)

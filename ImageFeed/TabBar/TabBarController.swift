@@ -26,12 +26,10 @@ final class TabBarController: UITabBarController {
         let imagesListViewPresenter = ImagesListViewPresenter(imagesListService: ImagesListService.shared)
         imagesListViewController.presenter = imagesListViewPresenter
         imagesListViewPresenter.view = imagesListViewController
-        //imagesListViewController.delegate = self
         
         let profileViewPresenter = ProfileViewPresenter(profileService: ProfileService.shared, profileImageService: ProfileImageService.shared)
         profileViewController.presenter = profileViewPresenter
         profileViewPresenter.view = profileViewController
-        //profileViewController.delegate = self
         
         self.viewControllers = [imagesListViewController, profileViewController]
     }
