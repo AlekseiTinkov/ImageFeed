@@ -13,8 +13,11 @@ final class SingleImageViewController: UIViewController {
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private var backButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        backButton.accessibilityIdentifier = "BackButton"
         scrollView.minimumZoomScale = 0.03
         scrollView.maximumZoomScale = 1.25
         showImage()
@@ -24,6 +27,7 @@ final class SingleImageViewController: UIViewController {
         guard
             let url = URL(string: imageUrl)
         else { return }
+        print(">>> \(url)")
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: url)  { [weak self] result in
             UIBlockingProgressHUD.dismiss()

@@ -8,18 +8,35 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set }
+    func updateAvatar(_ url: URL)
+    func updateProfileDetails(profile: Profile?)
+    func presentViewController(viewContriller: UIViewController)
+    func didTapLogoutButton()
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    var presenter: ProfileViewPresenterProtocol?
     private let nulProfileImage = UIImage(named: "NulProfileImage") ?? UIImage(systemName: "person.crop.circle.fill")!
     private var profileImage: UIImageView?
     private var nameLabel: UILabel = UILabel()
     private var loginLabel: UILabel = UILabel()
     private var descriptionLabel: UILabel = UILabel()
-    private let profileService = ProfileService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configView()
+        
+        presenter?.viewDidLoad()
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    private func configView() {
         addProfileImage()
         addProfileLabel(label: nameLabel,
                  text: "",
@@ -33,38 +50,6 @@ final class ProfileViewController: UIViewController {
                  color: .ypWhite,
                  font: UIFont.systemFont(ofSize: 13.0))
         addLogoutButton()
-        
-        updateProfileDetails(profile: profileService.profile)
-        
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.DidChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    private func updateProfileDetails(profile: Profile?) {
-        self.nameLabel.text = profile?.name
-        self.loginLabel.text = profile?.loginName
-        self.descriptionLabel.text = profile?.bio
-    }
-    
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        profileImage?.kf.setImage(with: url,
-                                  placeholder: nulProfileImage)
     }
     
     private func addProfileImage() {
@@ -105,27 +90,27 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logoutButton)
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         logoutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        logoutButton.accessibilityIdentifier = "LogoutButton"
+    }
+    
+    func updateProfileDetails(profile: Profile?) {
+        self.nameLabel.text = profile?.name
+        self.loginLabel.text = profile?.loginName
+        self.descriptionLabel.text = profile?.bio
+    }
+    
+    func updateAvatar(_ url: URL) {
+        self.profileImage?.kf.setImage(with: url,
+                                  placeholder: nulProfileImage)
+    }
+    
+    func presentViewController(viewContriller: UIViewController) {
+        self.present(viewContriller, animated: true)
     }
     
     @objc
-    private func didTapLogoutButton() {
-        let alert = UIAlertController(
-            title: "Пока, пока!",
-            message: "Уверены, что хотите выйти?",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Да", style: .default){ [weak self] _ in
-            guard let self else { return }
-            self.logout()
-        })
-        alert.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
-        self.present(alert, animated: true)
+    internal func didTapLogoutButton() {
+        presenter?.didTapLogoutButton()
     }
-    
-    private func logout() {
-        OAuth2TokenStorage().token = nil
-        OAuth2Service.cleanCookie()
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        window.rootViewController = SplashViewController()
-    }
+
 }
