@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AuthHelperProtocol {
-    func authRequest() -> URLRequest
+    func authRequest() -> URLRequest?
     func code(from url: URL) -> String?
 }
 
@@ -19,13 +19,13 @@ class AuthHelper: AuthHelperProtocol {
         self.configuration = configuration
     }
     
-    func authRequest() -> URLRequest {
-        let url = authURL()
+    func authRequest() -> URLRequest? {
+        guard let url = authURL() else { return nil }
         return URLRequest(url: url)
     }
 
-    func authURL() -> URL {
-        var urlComponents = URLComponents(string: configuration.authURLString)!
+    func authURL() -> URL? {
+        guard var urlComponents = URLComponents(string: configuration.authURLString) else { return nil }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: configuration.accessKey),
             URLQueryItem(name: "redirect_uri", value: configuration.redirectURI),
